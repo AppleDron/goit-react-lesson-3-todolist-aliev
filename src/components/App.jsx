@@ -3,6 +3,8 @@ import { Component } from 'react';
 import Header from './Header/Header';
 import Modal from './Modal/Modal';
 import ToDoList from './ToDoList/ToDoList';
+import FormLogin from './FormLogin/FormLogin';
+import { nanoid } from 'nanoid';
 
 class App extends Component {
   state = {
@@ -17,14 +19,26 @@ class App extends Component {
     this.setState({ isShowModal: false });
   };
 
+  getData = data => {
+    const newuser = {
+      ...data,
+      id: nanoid(),
+    };
+
+    console.log(newuser);
+  };
+
   render() {
     const { isShowModal } = this.state;
     return (
       <div className="container">
         <Header showModal={this.showModal} />
         <ToDoList />
-        {/* <Counter /> */}
-        {isShowModal && <Modal closeModal={this.closeModal} />}
+        {isShowModal && (
+          <Modal closeModal={this.closeModal}>
+            <FormLogin getData={this.getData} closeModal={this.closeModal} />
+          </Modal>
+        )}
       </div>
     );
   }
