@@ -13,6 +13,7 @@ const ToDo = ({ todo, todoCheckCompleted, handleDelete }) => {
         </div>
         <div className="col">
           <button
+            disabled={!todo.completed}
             className="btn-close"
             type="button"
             aria-label="Close"

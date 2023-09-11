@@ -8,6 +8,8 @@ class FormLogin extends Component {
     gender: null,
   };
 
+  componentDidUpdate = (prevProps, prevState) => {};
+
   handleChangeInput = e => {
     this.setState({ [e.target.name]: e.target.value });
   };

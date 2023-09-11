@@ -11,6 +11,8 @@ class App extends Component {
     isShowModal: false,
   };
 
+  componentDidMount = () => {};
+
   showModal = () => {
     this.setState({ isShowModal: true });
   };
