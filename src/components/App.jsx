@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import { Component, useState } from 'react';
 // import Counter from './Counter/Counter';
 import Header from './Header/Header';
 import Modal from './Modal/Modal';
@@ -8,23 +8,18 @@ import { nanoid } from 'nanoid';
 import Search from './Search/Search';
 import ContentInfo from './ContentInfo/ContentInfo';
 
-class App extends Component {
-  state = {
-    isShowModal: false,
-    searchText: '',
-  };
+import React from 'react';
+import { Toaster } from 'react-hot-toast';
 
-  componentDidMount = () => {};
+const App = () => {
+  const [isShowModal, setIsShowModal] = useState(false);
+  const [searchText, setSearchText] = useState('');
 
-  showModal = () => {
-    this.setState({ isShowModal: true });
-  };
+  const showModal = () => setIsShowModal(true);
 
-  closeModal = () => {
-    this.setState({ isShowModal: false });
-  };
+  const closeModal = () => setIsShowModal(false);
 
-  getData = data => {
+  const getData = data => {
     const newuser = {
       ...data,
       id: nanoid(),
@@ -33,26 +28,22 @@ class App extends Component {
     console.log(newuser);
   };
 
-  handleSearch = searchText => {
-    this.setState({ searchText });
-  };
+  const handleSearch = text => searchText(text);
 
-  render() {
-    const { isShowModal, searchText } = this.state;
-    return (
-      <div className="container">
-        <Header showModal={this.showModal} />
-        <Search onSubmit={this.handleSearch} />
-        <ContentInfo searchText={searchText} />
-        {/* <ToDoList /> */}
-        {/* {isShowModal && (
-          <Modal closeModal={this.closeModal}>
-            <FormLogin getData={this.getData} closeModal={this.closeModal} />
-          </Modal>
-        )} */}
-      </div>
-    );
-  }
-}
+  return (
+    <div className="container">
+      <Toaster position="top-right" toastOptions={{ duration: 1500 }} />
+      <Header showModal={showModal} />
+      <Search onSubmit={handleSearch} />
+      <ContentInfo searchText={searchText} />
+      <ToDoList />
+      {isShowModal && (
+        <Modal closeModal={closeModal}>
+          <FormLogin getData={getData} closeModal={closeModal} />
+        </Modal>
+      )}
+    </div>
+  );
+};
 
 export default App;
