@@ -6,10 +6,16 @@ export const useCustonContext = () => useContext(ContextAlert);
 
 const Context = ({ children }) => {
   const [toggleAlert, settoggleAlert] = useState(false);
+  const [news, setNews] = useState(null);
 
   return (
     <ContextAlert.Provider
-      value={{ toggleValue: toggleAlert, toggle: settoggleAlert }}
+      value={{
+        toggleValue: toggleAlert,
+        toggle: settoggleAlert,
+        news: news,
+        setNews: setNews,
+      }}
     >
       {children}
     </ContextAlert.Provider>

@@ -7,8 +7,8 @@ import toast from 'react-hot-toast';
 
 const ToDoList = () => {
   const [todoList, setTodoList] = useState(todos);
-  const [isDelete, setIsDelete] = useState(false);
-  const [isCreate, setIsCreate] = useState(false);
+  // const [isDelete, setIsDelete] = useState(false);
+  // const [isCreate, setIsCreate] = useState(false);
 
   useEffect(() => {
     const localToDo = localStorage.getItem('todo');

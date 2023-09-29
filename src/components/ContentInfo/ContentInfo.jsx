@@ -1,39 +1,48 @@
 import Error from 'components/Error/Error';
-import React, { Component } from 'react';
+import React, { Component, useEffect, useState } from 'react';
 import { getNews } from 'services/getNews';
+import { useCustonContext } from 'testContext/Context/Context';
 
-export default class ContentInfo extends Component {
-  state = { news: null, error: '', status: 'idle' };
+const ContentInfo = ({ searchText }) => {
+  const { news, setNews } = useCustonContext();
+  const [error, setError] = useState('');
+  const [status, setStatus] = useState('idle');
 
-  componentDidUpdate = (prevProps, prevState) => {
-    if (prevProps.searchText !== this.props.searchText) {
-      this.setState({ status: 'pending' });
+  useEffect(() => {
+    news && setStatus('resolved');
+  }, [news]);
 
-      getNews(this.props.searchText)
-        .then(response => response.json())
-        .then(news => {
-          if (news.status === 'ok') {
-            this.setState({ news: news.articles, status: 'resolved' });
-            return;
-          } else return Promise.reject(news.message);
-        })
-        .catch(error => this.setState({ error, status: 'rejected' }));
-    }
-  };
+  useEffect(() => {
+    if (!searchText) return;
 
-  render() {
-    const { news, error, status } = this.state;
+    setStatus('pending');
 
-    if (status === 'rejected') return <Error>{error}</Error>;
-    else if (status === 'resolved')
-      return (
-        <ul>
-          {news.map(el => {
-            return <li key={el.url}>{el.title}</li>;
-          })}
-        </ul>
-      );
-    else if (status === 'pending')
-      return <div className="spinner-border" role="status"></div>;
-  }
-}
+    getNews(searchText)
+      .then(response => response.json())
+      .then(news => {
+        if (news.status === 'ok') {
+          setNews(news.articles);
+          setStatus('resolved');
+          return;
+        } else return Promise.reject(news.message);
+      })
+      .catch(error => {
+        setError(error);
+        setStatus('rejected');
+      });
+  }, [searchText, setNews]);
+
+  if (status === 'rejected') return <Error>{error}</Error>;
+  else if (status === 'resolved')
+    return (
+      <ul>
+        {news.map(el => {
+          return <li key={el.url}>{el.title}</li>;
+        })}
+      </ul>
+    );
+  else if (status === 'pending')
+    return <div className="spinner-border" role="status"></div>;
+};
+
+export default ContentInfo;

@@ -16,7 +16,6 @@ const Modal = ({ closeModal, children }) => {
   return (
     <div
       className="modal fade show"
-      // onClick={closeModal}
       style={{ display: 'block', backdropFilter: 'blur(5px)' }}
     >
       <div className="modal-dialog">
