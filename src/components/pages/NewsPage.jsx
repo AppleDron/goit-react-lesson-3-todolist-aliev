@@ -1,6 +1,6 @@
 import ContentInfo from 'components/ContentInfo/ContentInfo';
 import Search from 'components/Search/Search';
-import React, { useState } from 'react';
+import React, { Suspense, useState } from 'react';
 
 const NewsPage = () => {
   const [searchText, setSearchText] = useState('');
@@ -8,11 +8,13 @@ const NewsPage = () => {
   const handleSearch = text => setSearchText(text);
 
   return (
-    <div>
-      News
-      <Search onSubmit={handleSearch} />
-      <ContentInfo searchText={searchText} />
-    </div>
+    <Suspense>
+      <div>
+        News
+        <Search onSubmit={handleSearch} />
+        <ContentInfo searchText={searchText} />
+      </div>
+    </Suspense>
   );
 };
 

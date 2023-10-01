@@ -4,20 +4,28 @@ import ToDo from 'components/ToDo/ToDo';
 import FormToDo from 'components/FormToDo/FormToDo';
 import { nanoid } from 'nanoid';
 import toast from 'react-hot-toast';
+import FormFilterTodo from 'components/FormToDo/FormFilterTodo';
+import { useSearchParams } from 'react-router-dom';
 
 const ToDoList = () => {
-  const [todoList, setTodoList] = useState(todos);
-  // const [isDelete, setIsDelete] = useState(false);
-  // const [isCreate, setIsCreate] = useState(false);
-
-  useEffect(() => {
-    const localToDo = localStorage.getItem('todo');
-    if (localToDo) setTodoList(JSON.parse(localToDo));
-  }, []);
+  const [todoList, setTodoList] = useState(
+    JSON.parse(localStorage.getItem('todo'))
+  );
+  const [filteredTodoList, setFilteredTodoList] = useState(todoList);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const filteredText = searchParams.get('filter') ?? '';
 
   useEffect(() => {
     todoList && localStorage.setItem('todo', JSON.stringify(todoList));
   }, [todoList]);
+
+  useEffect(() => {
+    setFilteredTodoList(
+      todoList.filter(todo =>
+        todo.title.toLowerCase().includes(filteredText.trim().toLowerCase())
+      )
+    );
+  }, [filteredText, searchParams, todoList]);
 
   const todoCheckCompleted = id => {
     setTodoList(prevState => {
@@ -46,9 +54,13 @@ const ToDoList = () => {
   return (
     <>
       <h1>My To-Do List</h1>
+      <FormFilterTodo
+        setSearchParams={setSearchParams}
+        filteredText={filteredText}
+      />
       <FormToDo addToDo={handleAddToDo} />
       <ul className="list-group list-group-flush">
-        {todoList.map(todo => (
+        {filteredTodoList.map(todo => (
           <ToDo
             key={todo.id}
             todo={todo}

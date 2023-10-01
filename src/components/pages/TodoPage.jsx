@@ -1,12 +1,14 @@
 import ToDoList from 'components/ToDoList/ToDoList';
-import React from 'react';
+import React, { Suspense } from 'react';
 
 const TodoPage = () => {
   return (
-    <div>
-      TodoPage
-      <ToDoList />
-    </div>
+    <Suspense>
+      <div>
+        TodoPage
+        <ToDoList />
+      </div>
+    </Suspense>
   );
 };
 

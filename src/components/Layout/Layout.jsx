@@ -2,7 +2,7 @@ import { Modal } from 'bootstrap';
 import FormLogin from 'components/FormLogin/FormLogin';
 import Header from 'components/Header/Header';
 import { nanoid } from 'nanoid';
-import React, { useState } from 'react';
+import React, { Suspense, useState } from 'react';
 import { Toaster } from 'react-hot-toast';
 import { Outlet } from 'react-router-dom';
 
@@ -26,7 +26,9 @@ const Layout = () => {
     <div className="container">
       <Toaster position="top-right" toastOptions={{ duration: 1500 }} />
       <Header showModal={showModal} />
-      <Outlet />
+      <Suspense fallback={<div>Loading...</div>}>
+        <Outlet />
+      </Suspense>{' '}
       {isShowModal && (
         <Modal closeModal={closeModal}>
           <FormLogin getData={getData} closeModal={closeModal} />
