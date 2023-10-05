@@ -1,17 +1,16 @@
-import React, { useState } from 'react';
-import { useReducer } from 'react';
-
-const reducer = (prevState, action) => {
-  if (action.type === 'increment') return prevState + action.payload;
-  if (action.type === 'decrement') return prevState - action.payload;
-};
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { decrement, increment } from 'redux/counter/actions';
 
 const Counter = () => {
-  const [total, settotal] = useReducer(reducer, 0);
+  // const [total, settotal] = useReducer(reducer, 0);
+  const { total } = useSelector(state => state.counter);
 
-  const handleClickPlus = () => settotal({ type: 'increment', payload: 1 });
+  const dispatch = useDispatch();
 
-  const handleClickMinus = () => settotal({ type: 'decrement', payload: 1 });
+  const handleClickPlus = () => dispatch(increment());
+
+  const handleClickMinus = () => dispatch(decrement());
 
   return (
     <div className="position-absolute top-50 start-50 translate-middle">

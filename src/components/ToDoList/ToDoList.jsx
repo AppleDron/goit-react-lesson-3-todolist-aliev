@@ -9,7 +9,7 @@ import { useSearchParams } from 'react-router-dom';
 
 const ToDoList = () => {
   const [todoList, setTodoList] = useState(
-    JSON.parse(localStorage.getItem('todo'))
+    JSON.parse(localStorage.getItem('todo')) ?? []
   );
   const [filteredTodoList, setFilteredTodoList] = useState(todoList);
   const [searchParams, setSearchParams] = useSearchParams();
