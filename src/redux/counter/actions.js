@@ -1,8 +1,5 @@
-import { types } from '../constants';
+import { createAction } from '@reduxjs/toolkit';
 
-export const increment = () => ({ type: types.INCREMENT });
-export const decrement = () => ({ type: types.DECREMENT });
-export const setStep = value => ({
-  type: types.SETSTEP,
-  payload: value,
-});
+export const increment = createAction('INCREMENT');
+export const decrement = createAction('DECREMENT');
+export const setStep = createAction('SETSTEP');

@@ -1,17 +1,19 @@
 import ToDo from 'components/ToDo/ToDo';
-import React, { Suspense, useEffect, useState } from 'react';
+import React, { Suspense, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import { Link, useLocation, useParams } from 'react-router-dom';
 
 const TodoDetails = () => {
-  const [todoList, setTodoList] = useState(null);
+  // const [todoList, setTodoList] = useState(null);
+  const { todo: todoList } = useSelector(state => state.todo);
   const params = useParams();
   const location = useLocation();
 
-  useEffect(() => {
-    const localTodo = localStorage.getItem('todo');
+  // useEffect(() => {
+  //   const localTodo = localStorage.getItem('todo');
 
-    if (localTodo) return setTodoList(JSON.parse(localTodo));
-  }, []);
+  //   if (localTodo) return setTodoList(JSON.parse(localTodo));
+  // }, []);
 
   return (
     <Suspense>

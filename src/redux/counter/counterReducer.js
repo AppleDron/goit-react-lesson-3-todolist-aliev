@@ -1,25 +1,15 @@
-import { types } from 'redux/constants';
+import { decrement, increment, setStep } from './actions';
 import { counterInitialState } from './counterInitialState';
+import { createReducer } from '@reduxjs/toolkit';
 
-export const counterReducer = (state = counterInitialState, action) => {
-  switch (action.type) {
-    case types.INCREMENT:
-      return {
-        ...state,
-        total: state.total + state.step,
-      };
-
-    case types.DECREMENT:
-      return {
-        ...state,
-        total: state.total - state.step,
-      };
-    case types.SETSTEP:
-      return {
-        ...state,
-        step: action.payload,
-      };
-    default:
-      return state;
-  }
-};
+export const counterReducer = createReducer(counterInitialState, {
+  [increment]: (state, action) => ({
+    ...state,
+    total: state.total + action.payload,
+  }),
+  [decrement]: (state, action) => ({
+    ...state,
+    total: state.total - action.payload,
+  }),
+  [setStep]: (state, action) => ({ ...state, step: action.payload }),
+});

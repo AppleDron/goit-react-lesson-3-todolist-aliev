@@ -6,11 +6,15 @@ import { nanoid } from 'nanoid';
 import toast from 'react-hot-toast';
 import FormFilterTodo from 'components/FormToDo/FormFilterTodo';
 import { useSearchParams } from 'react-router-dom';
+import { createTodo } from 'redux/todo/actions';
+import { useDispatch, useSelector } from 'react-redux';
 
 const ToDoList = () => {
-  const [todoList, setTodoList] = useState(
-    JSON.parse(localStorage.getItem('todo')) ?? []
-  );
+  // const [todoList, setTodoList] = useState(
+  //   JSON.parse(localStorage.getItem('todo')) ?? []
+  // );
+  const dispatch = useDispatch();
+  const { todo: todoList } = useSelector(state => state.todo);
   const [filteredTodoList, setFilteredTodoList] = useState(todoList);
   const [searchParams, setSearchParams] = useSearchParams();
   const filteredText = searchParams.get('filter') ?? '';
@@ -28,26 +32,25 @@ const ToDoList = () => {
   }, [filteredText, searchParams, todoList]);
 
   const todoCheckCompleted = id => {
-    setTodoList(prevState => {
-      return prevState.map(todo =>
-        todo.id === id ? { ...todo, completed: !todo.completed } : todo
-      );
-    });
+    // setTodoList(prevState => {
+    //   return prevState.map(todo =>
+    //     todo.id === id ? { ...todo, completed: !todo.completed } : todo
+    //   );
+    // });
   };
 
   const handleDelete = id => {
-    setTodoList(prevState => {
-      return prevState.filter(todo => todo.id !== id);
-    });
-
-    toast.error('Deleted');
+    // setTodoList(prevState => {
+    //   return prevState.filter(todo => todo.id !== id);
+    // });
+    // toast.error('Deleted');
   };
 
   const handleAddToDo = value => {
-    setTodoList(prevState => {
-      return [...prevState, { id: nanoid(), title: value, completed: false }];
-    });
-
+    // setTodoList(prevState => {
+    //   return [...prevState, { id: nanoid(), title: value, completed: false }];
+    // });
+    dispatch(createTodo(value));
     toast.success('Added a new todo');
   };
 

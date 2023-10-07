@@ -1,7 +1,6 @@
-import { counterReducer } from './counter/counterReducer';
+import { combineReducers } from 'redux';
+import { counterReducer } from './counter/counterSlice';
 import { todoReducer } from './todo/todoReducer';
-
-const { combineReducers } = require('redux');
 
 export const reducer = combineReducers({
   counter: counterReducer,
