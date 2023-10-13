@@ -6,7 +6,7 @@ import { getNews } from 'services/getNews';
 import { useCustonContext } from 'testContext/Context/Context';
 
 const ContentInfo = ({ searchText }) => {
-  // const { news, setNews } = useCustonContext();
+  // const { news, setNews } = useCustomContext();
   // const [error, setError] = useState('');
   // const [status, setStatus] = useState('idle');
 
@@ -36,7 +36,6 @@ const ContentInfo = ({ searchText }) => {
 
   const { news, status, error } = useSelector(state => state.news);
   const dispatch = useDispatch();
-  console.log(status);
 
   useEffect(() => {
     dispatch(getNewsThunk);
@@ -47,17 +46,17 @@ const ContentInfo = ({ searchText }) => {
     dispatch(getNewsSearchThunk(searchText));
   }, [dispatch, searchText]);
 
-  if (status === 'rejected') return <Error>{error}</Error>;
-  else if (status === 'fulfilled')
-    return (
-      <ul>
-        {news.map(el => {
-          return <li key={el.url}>{el.title}</li>;
-        })}
-      </ul>
-    );
-  else if (status === 'pending')
-    return <div className="spinner-border" role="status"></div>;
+  // if (status === 'rejected') return <Error>{error}</Error>;
+  // else if (status === 'fulfilled')
+  //   return (
+  //     <ul>
+  //       {news.map(el => {
+  //         return <li key={el.url}>{el.title}</li>;
+  //       })}
+  //     </ul>
+  //   );
+  // else if (status === 'pending')
+  //   return <div className="spinner-border" role="status"></div>;
 };
 
 export default ContentInfo;

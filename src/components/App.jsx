@@ -4,6 +4,7 @@ import HomePage from './pages/HomePage';
 // import NewsPage from './pages/NewsPage';
 // import TodoPage from './pages/TodoPage';
 import Layout from './Layout/Layout';
+import ProductsPage from './pages/ProductPage';
 // import LoginPage from './pages/LoginPage';
 // import TodoDetails from './pages/TodoDetails';
 
@@ -20,6 +21,7 @@ const App = () => {
         <Route path="news" element={<NewsPage />} />
         <Route path="todo" element={<TodoPage />} />
         <Route path="todo/:id" element={<TodoDetails />} />
+        <Route path="products" element={<ProductsPage />} />
       </Route>
       <Route path="login" element={<LoginPage />} />
     </Routes>
