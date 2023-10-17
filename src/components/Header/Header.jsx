@@ -1,9 +1,24 @@
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { NavLink, useNavigate } from 'react-router-dom';
+import { logOut } from 'redux/auth/authSlice';
+import { getProfileThunk } from 'redux/auth/authThunk';
+import { unSetToken } from 'services/auth-services/auth-service';
 
 const Header = ({ showModal }) => {
+  const { profile, token } = useSelector(state => state.auth);
   const navigate = useNavigate();
-  const handleLogin = () => {
-    navigate('/login');
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    token && dispatch(getProfileThunk());
+  }, [dispatch, token]);
+
+  const handleLogin = () => {};
+
+  const handleLogout = () => {
+    dispatch(logOut());
+    unSetToken();
   };
 
   return (
@@ -19,22 +34,37 @@ const Header = ({ showModal }) => {
             >
               Home
             </NavLink>
-            <NavLink className="nav-link text-white" to="/news">
-              News
-            </NavLink>
-            <NavLink className="nav-link text-white" to="/todo">
-              Todo
-            </NavLink>
-            <NavLink className="nav-link text-white" to="/products">
-              Products
-            </NavLink>
+            {token && (
+              <>
+                <NavLink className="nav-link text-white" to="/news">
+                  News
+                </NavLink>
+                <NavLink className="nav-link text-white" to="/todo">
+                  Todo
+                </NavLink>
+                <NavLink className="nav-link text-white" to="/products">
+                  Products
+                </NavLink>
+              </>
+            )}
           </div>
+          {profile && <div className="  text-white">{profile.name}</div>}
         </div>
         <button className="btn btn-outline-success" onClick={showModal}>
           Open Modal
         </button>
-        <button className="btn btn-outline-success" onClick={handleLogin}>
-          Login
+        <button className="btn btn-outline-success">
+          <NavLink className="nav-link text-white" to="/signup">
+            SignUp
+          </NavLink>
+        </button>
+        <button
+          className="btn btn-outline-success"
+          onClick={profile ? handleLogout : handleLogin}
+        >
+          <NavLink className="nav-link text-white" to="/login">
+            {profile ? 'LogOut' : 'LogIn'}
+          </NavLink>
         </button>
       </div>
     </div>
