@@ -7,6 +7,9 @@ import Layout from './Layout/Layout';
 import ProductsPage from './pages/ProductPage';
 import SignUpPage from './pages/SignUpPage';
 import { useSelector } from 'react-redux';
+import { Toaster } from 'react-hot-toast';
+import PrivateRoute from './PrivateRoutes/PrivateRoute';
+import PublicRoute from './PublicRoutes/PublicRoute';
 // import LoginPage from './pages/LoginPage';
 // import TodoDetails from './pages/TodoDetails';
 
@@ -17,33 +20,60 @@ const LoginPage = lazy(() => import('./pages/LoginPage'));
 
 const App = () => {
   const token = useSelector(state => state.auth.token);
-  console.log(token);
   return (
-    <Routes>
-      <Route path="/" element={<Layout />}>
-        <Route index element={<HomePage />} />
-        <Route path="news" element={<NewsPage />} />
-        <Route path="todo" element={<TodoPage />} />
-        <Route path="todo/:id" element={<TodoDetails />} />
-        <Route path="products" element={<ProductsPage />} />
-      </Route>
-      <Route
-        path="/login"
-        element={
-          <Suspense>
-            <LoginPage />
-          </Suspense>
-        }
-      />
-      <Route
-        path="/signUp"
-        element={
-          <Suspense>
-            <SignUpPage />
-          </Suspense>
-        }
-      />
-    </Routes>
+    <>
+      <Toaster position="top-right" toastOptions={{ duration: 1500 }} />
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route index element={<HomePage />} />
+          <Route path="news" element={<NewsPage />} />
+          <Route
+            path="todo"
+            element={
+              <PrivateRoute>
+                <TodoPage />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="todo/:id"
+            element={
+              <PrivateRoute>
+                <TodoDetails />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="products"
+            element={
+              <PrivateRoute>
+                <ProductsPage />
+              </PrivateRoute>
+            }
+          />
+        </Route>
+        <Route
+          path="/login"
+          element={
+            <Suspense>
+              <PublicRoute>
+                <LoginPage />
+              </PublicRoute>
+            </Suspense>
+          }
+        />
+        <Route
+          path="/signUp"
+          element={
+            <Suspense>
+              <PublicRoute>
+                <SignUpPage />
+              </PublicRoute>
+            </Suspense>
+          }
+        />
+      </Routes>
+    </>
   );
 };
 

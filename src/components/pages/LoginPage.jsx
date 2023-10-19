@@ -1,18 +1,11 @@
 import React, { useEffect } from 'react';
 import toast from 'react-hot-toast';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import { loginThunk } from 'redux/auth/authThunk';
-import { login } from 'services/auth-services/auth-service';
+import { Link, useNavigate } from 'react-router-dom';
+import { getProfileThunk, loginThunk } from 'redux/auth/authThunk';
 
 const LoginPage = () => {
-  const token = useSelector(state => state.auth.token);
   const dispatch = useDispatch();
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    token && navigate('/');
-  }, [navigate, token]);
 
   const handleSubmit = e => {
     e.preventDefault();
@@ -22,7 +15,9 @@ const LoginPage = () => {
       password: e.target.elements.password.value,
     };
 
-    dispatch(loginThunk(logInUser));
+    dispatch(loginThunk(logInUser))
+      .unwrap()
+      .catch(e => toast.error('Error lol'));
   };
 
   return (
@@ -59,7 +54,9 @@ const LoginPage = () => {
             id="exampleInputPassword1"
           />
         </div>
-        <div>{/* <Link to="/signUp">Sign Up</Link> */}</div>
+        <div>
+          <Link to="/signUp">Sign Up</Link>
+        </div>
         <button type="submit" className="btn btn-primary">
           Submit
         </button>

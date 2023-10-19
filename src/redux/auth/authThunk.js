@@ -3,7 +3,11 @@ import { getProfile, login } from 'services/auth-services/auth-service';
 
 export const loginThunk = createAsyncThunk(
   'auth/login',
-  async body => await login(body)
+  async (body, { dispatch }) => {
+    const data = await login(body);
+    dispatch(getProfileThunk());
+    return data;
+  }
 );
 
 export const getProfileThunk = createAsyncThunk(

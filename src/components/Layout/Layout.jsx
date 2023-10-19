@@ -24,7 +24,6 @@ const Layout = () => {
 
   return (
     <div className="container">
-      <Toaster position="top-right" toastOptions={{ duration: 1500 }} />
       <Header showModal={showModal} />
       <Suspense fallback={<div>Loading...</div>}>
         <Outlet />

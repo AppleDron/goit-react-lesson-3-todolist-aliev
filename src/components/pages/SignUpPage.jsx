@@ -1,9 +1,12 @@
 import React from 'react';
 import toast from 'react-hot-toast';
-import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
+import { loginThunk } from 'redux/auth/authThunk';
 import { signUp } from 'services/auth-services/auth-service';
 
 const SignUpPage = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const handleSubmit = e => {
     e.preventDefault();
@@ -16,8 +19,10 @@ const SignUpPage = () => {
 
     signUp(newUser)
       .then(() => {
+        const { password, email } = newUser;
         toast.success('Created');
-        navigate('/login');
+        dispatch(loginThunk({ email, password }));
+        // navigate('/login');
       })
       .catch(e => console.log(e));
   };
@@ -67,7 +72,9 @@ const SignUpPage = () => {
             id="exampleInputPassword1"
           />
         </div>
-        <div>{/* <Link to="/signUp">Sign Up</Link> */}</div>
+        <div>
+          <Link to="/login">Login</Link>
+        </div>
         <button type="submit" className="btn btn-primary">
           Submit
         </button>

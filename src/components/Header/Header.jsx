@@ -10,10 +10,6 @@ const Header = ({ showModal }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    token && dispatch(getProfileThunk());
-  }, [dispatch, token]);
-
   const handleLogin = () => {};
 
   const handleLogout = () => {
